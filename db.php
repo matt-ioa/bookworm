@@ -28,13 +28,13 @@ class Database {
     }
 
     function addAuthor($author) {
-        $fname = $author['fname'];
-        $lname = $author['lname'];
-        $country = $author['country'];
+        $name = $author['name'];
         $born = $author['born'];
-        $query = "INSERT INTO authors VALUES ($fname, $lname, $country, $born)";
+        $died = $author['died'];
+        $query = "INSERT INTO authors (name, born, died) VALUES ('$name', '$born', '$died')";
         $stmt = $this->pdo->query($query);
-        return $stmt->execute();
+        $stmt->execute();
+        return intval($this->pdo->lastInsertId());
     }
 
     function addBook($book) {

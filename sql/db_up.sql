@@ -5,10 +5,9 @@ USE bookworm;
 CREATE TABLE authors
 (
     author_id INT AUTO_INCREMENT PRIMARY KEY,
-    fname VARCHAR(50),
-    lname VARCHAR(50),
-    country VARCHAR(50),
-    born DATE
+    name VARCHAR(255),
+    born VARCHAR(255),
+    died VARCHAR(255)
 );
 
 CREATE TABLE books
