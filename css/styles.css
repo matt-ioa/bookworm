@@ -57,19 +57,29 @@ h1 {
 }
 
 .inline-image {
-    width: 100%;
+    height: 5rem;
     padding-bottom: 2rem;
 }
 
 .edition {
+    display: block;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.editions {
     margin: 3rem;
     font-size: 1.5rem;
+    display: flex;
+    /*flex-direction: column;*/
+    flex-wrap: wrap;
+    /*align-items: center;*/
 }
 
 .cover-image {
-    margin: 0 auto;
     display: block;
-    width: 50%;
+    margin: 0 auto;
+    height: 10rem;
 }
 
 body {
@@ -85,4 +95,21 @@ body {
 
 html {
     font-family: 'Cormorant Garamond', 'sans-serif';
+}
+
+@media screen and (min-width: 800px) {
+   .inline-image {
+       display: block;
+       margin: 0 auto;
+   }
+
+    .cover-image {
+        height: 10rem;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .edition {
+        width: 30%;
+    }
 }
