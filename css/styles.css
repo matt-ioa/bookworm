@@ -18,6 +18,10 @@ nav ul {
     background-color: #a50005;
 }
 
+a {
+    color: #a50005;
+}
+
 nav ul li {
     /*border: black 1px solid;*/
     padding: 1rem 1.5rem;
@@ -28,6 +32,13 @@ nav a {
     color: white;
 }
 
+.content {
+    padding: 2rem 0;
+    text-align: center;
+    margin: 0 2rem;
+}
+
+
 #logo {
     /*height: 1.5rem;*/
 
@@ -35,7 +46,7 @@ nav a {
 
 h1 {
     font-size: 2.5rem;
-    margin: 1rem 0;
+    margin: 1rem 2rem;
     text-align: center;
 }
 
@@ -53,6 +64,12 @@ h1 {
 body {
     margin: 0;
     padding: 0;
+
+    background-color: #ffffff;
+    background-image:  linear-gradient(135deg, #eeeeee 25%, transparent 25%), linear-gradient(225deg, #eeeeee 25%, transparent 25%), linear-gradient(45deg, #eeeeee 25%, transparent 25%), linear-gradient(315deg, #eeeeee 25%, #fff 25%);
+    background-position:  10px 0, 10px 0, 0 0, 0 0;
+    background-size: 20px 20px;
+    background-repeat: repeat;
 }
 
 html {
