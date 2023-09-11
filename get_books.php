@@ -34,6 +34,11 @@ foreach ($authors as $author) {
         $decodedText = html_entity_decode($bookResp);
         $bookRespMap = json_decode($decodedText, TRUE)['docs'][$i];
 
+
+        $bookMap = ['title'=>$bookRespMap['title'], 'authorId'=>$authorId,
+            'genre'=>$bookRespMap['subject'][0],'firstPublished'=>$bookRespMap['first_publish_year']];
+        $bookId = $db->addBook($bookMap);
+
         $workKey = $bookRespMap['key'];
         $editionsUrl = "https://openlibrary.org$workKey/editions.json";
         $editionsCurl = curl_init($editionsUrl);
@@ -56,13 +61,30 @@ foreach ($authors as $author) {
         }
 
         $editionIndex = array_rand($englishEditions);
-        $editionId = $englishEditions[$editionIndex];
-//
-//        $book = $bookResp['docs'][$i];
-//
-//
-//        $bookMap = ['title' => $book['title'], 'authorId' => $authorId, 'coverImage' => $book['cover_i'],
-//            'firstPublished' => $book['first_publish_year']];
+        $edition = $englishEditions[$editionIndex];
+
+        if (gettype($edition['covers']) == 'array') {
+            $edition['cover'] = $edition['covers'][0];
+        }
+        else {
+            $edition['cover'] = $edition['covers'];
+        }
+
+        $coverImage = null;
+
+        if ($edition['cover']) {
+            $coverImage = 'https://covers.openlibrary.org/b/id/'
+                . $edition['cover']
+                . '-M.jpg';
+        }
+
+        $editionMap = ['printing'=>$edition['revision'],
+            'coverImage'=>$coverImage,
+            'bookId'=>$bookId,
+            'published'=>$edition['publish_date'],
+            'price'=>mt_rand (2*10, 200*10) / 10];
+
+        $db->addEdition($editionMap);
 
     }
 }

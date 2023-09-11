@@ -13,12 +13,12 @@ CREATE TABLE authors
 CREATE TABLE books
 (
     book_id         INT AUTO_INCREMENT PRIMARY KEY,
-    title           VARCHAR(50),
+    title           VARCHAR(255),
     author_id       INT,
     FOREIGN KEY (author_id)
         REFERENCES authors (author_id),
-    genre           VARCHAR(50),
-    first_published DATE,
+    genre           VARCHAR(255),
+    first_published VARCHAR(50),
     rating          INT
 );
 
@@ -30,6 +30,6 @@ CREATE TABLE editions
     book_id INT,
     FOREIGN KEY(book_id)
         REFERENCES books(book_id),
-    published DATE,
+    published VARCHAR(50),
     price DECIMAL
 );
