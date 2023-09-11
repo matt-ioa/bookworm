@@ -3,7 +3,7 @@
 <?php
 include_once 'head.php';
 ?>
-<body>
+<div>
 <?php
 include_once 'nav.php';
 ?>
@@ -19,16 +19,32 @@ if (isset($_GET['book'])) {
 }
 else {
     echo "<h1>Editions</h1>";
-    $books = $database->getEditions();
+    $editions = $database->getEditions();
 }
 
-//echo "<div class='content'>";
-//foreach ($books as $book) {
-//    $bookTitle = $book['title'];
-//    $bookId = $book['book_id'];
-//    echo "<a href='editions.php?edition=$bookId'><h2>$bookTitle</h2></a>";
-//}
+echo "<div class='edition'>";
+foreach ($editions as $edition) {
+    $printing = $edition['printing'];
+    $coverImage = $edition['cover_image'];
+    $published = $edition['published'];
+    $price = $edition['price'];
+    $bookId = $edition['book_id'];
+    if ($coverImage) {
+        echo "<img alt='cover' class='cover-image' src='$coverImage'/><br/>";
+    }
+    if (!isset($_GET['book'])) {
+        $book = $database->getBook($bookId);
+        $bookTitle = $book['title'];
+        echo "<b>Title: </b> $bookTitle<br/>";
+    }
+
+//    $condition = $edition['condition'];
+    echo "<b>Printing: </b> $printing<br/>";
+    echo "<b>Published: </b> $published<br/>";
+    echo "<b>Price: </b> £$price</p><br/>";
+}
 ?>
+</div>
 </body>
 </html>
 

@@ -61,6 +61,17 @@ h1 {
     padding-bottom: 2rem;
 }
 
+.edition {
+    margin: 3rem;
+    font-size: 1.5rem;
+}
+
+.cover-image {
+    margin: 0 auto;
+    display: block;
+    width: 50%;
+}
+
 body {
     margin: 0;
     padding: 0;
