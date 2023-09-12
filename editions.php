@@ -60,9 +60,7 @@ foreach ($editions as $edition) {
         echo "<img alt='cover' class='cover-image' src='img/bookcover.jpg'/><br/>";
     }
     if (!isset($_GET['book'])) {
-        $book = $database->getBook($bookId);
-        $bookTitle = $book['title'];
-        echo "<b>Title: </b> $bookTitle<br/>";
+        echo "<b>Title: </b> $title<br/>";
     }
 
     echo "<b>Author: </b>$authorName<br/>";
