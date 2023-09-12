@@ -1,6 +1,6 @@
 <?php
 
-$host = '172.18.0.3';
+$host = '172.18.0.4';
 $db   = 'bookworm';
 $user = 'root';
 $pass = 'password';
@@ -30,37 +30,58 @@ class Database {
 
     function addAuthor($author) {
         $name = $author['name'];
-        $born = $author['born'];
-        $died = $author['died'];
+        $born = $author['born'] ?? 'NULL';
+        $died = $author['died'] ?? 'NULL';
         $query = "INSERT INTO authors (name, born, died) VALUES ('$name', '$born', '$died')";
         $stmt = $this->pdo->query($query);
 //        $stmt->execute();
         return intval($this->pdo->lastInsertId());
     }
 
+    function findAuthor($author) {
+        $query = "SELECT * from authors WHERE name LIKE '$author'";
+        $stmt = $this->pdo->query($query);
+        $result = $stmt->fetchAll();
+        if (count($result) > 0) {
+            return $result[0]['author_id'];
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    function findBook($book) {
+        $query = "SELECT * from books WHERE title LIKE '$book'";
+        $stmt = $this->pdo->query($query);
+        $result = $stmt->fetchAll();
+        if (count($result) > 0) {
+            return $result[0]['book_id'];
+        }
+        else {
+            return NULL;
+        }
+    }
+
     function addBook($book) {
         var_dump($book);
         $title = str_replace(["'"], '&apos;', $book['title']);
         $authorId = intval($book['authorId']);
-        $genre = str_replace(["'"], '&apos;', $book['genre']);
-        $first_published = $book['firstPublished'];
-        $query = "INSERT INTO books (title, author_id, genre, first_published)
-                  VALUES ('$title', $authorId, '$genre', '$first_published')";
+        $first_published = $book['firstPublished'] ?? 'NULL';
+        $query = "INSERT INTO books (title, author_id, first_published)
+                  VALUES ('$title', $authorId, '$first_published')";
         echo $query;
         $stmt = $this->pdo->query($query);
-//        $stmt->execute();
         return intval($this->pdo->lastInsertId());
     }
     function addEdition($edition) {
-        $printing = intval($edition['printing']);
         $coverImage = $edition['coverImage'];
         $bookId = $edition['bookId'];
         $published = $edition['published'];
-        $price = $edition['price'];
-        $query = "INSERT INTO editions (printing, cover_image, book_id, published, price)
-                  VALUES ($printing, '$coverImage', $bookId, '$published', $price)";
+        $price = floatval($edition['price']);
+        $condition = $edition['condition'];
+        $query = "INSERT INTO editions (cover_image, book_id, published, price, `condition`)
+                  VALUES ('$coverImage', $bookId, '$published', $price, '$condition')";
         $stmt = $this->pdo->query($query);
-//        $stmt->execute();
         return intval($this->pdo->lastInsertId());
     }
 

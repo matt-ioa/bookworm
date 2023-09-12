@@ -15,7 +15,7 @@ if (isset($_GET['book'])) {
     $book = $database->getBook($bookId);
     $editions = $database->getEditionsByBook($bookId);
     $bookTitle = $book['title'];
-    echo "<h1>Editions of $bookTitle</h1>";
+    echo "<h1>Editions of &ldquo;$bookTitle&rdquo;</h1>";
 }
 else {
     echo "<h1>Editions</h1>";
@@ -23,13 +23,36 @@ else {
 }
 
 echo "<div class='editions'>";
+
+$bookId = NULL;
+$authorId = NULL;
+$title = NULL;
+$newAuthorId = NULL;
+$authorName = NULL;
+
 foreach ($editions as $edition) {
     echo "<div class='edition'>";
     $printing = $edition['printing'];
     $coverImage = $edition['cover_image'];
     $published = $edition['published'];
     $price = $edition['price'];
-    $bookId = $edition['book_id'];
+    $condition = $edition['condition'];
+    $newBookId = $edition['book_id'];
+
+    if ($newBookId != $bookId) {
+        $bookId = $newBookId;
+        $book = $database->getBook($bookId);
+        $newAuthorId = $book['author_id'];
+        $title = $book['title'];
+    }
+
+    if ($newAuthorId != $authorId) {
+        $authorId = $newAuthorId;
+        $author = $database->getAuthor($authorId);
+        $authorName = $author['name'];
+    }
+
+
     if ($coverImage) {
         echo "<img alt='cover' class='cover-image' src='$coverImage'/><br/>";
     }
@@ -42,10 +65,10 @@ foreach ($editions as $edition) {
         echo "<b>Title: </b> $bookTitle<br/>";
     }
 
-//    $condition = $edition['condition'];
-    echo "<b>Printing: </b> $printing<br/>";
-    echo "<b>Published: </b> $published<br/>";
-    echo "<b>Price: </b> £$price</p><br/>";
+    echo "<b>Author: </b>$authorName<br/>";
+    echo "<b>Published: </b>$published<br/>";
+    echo "<b>Price: </b> £$price<br/>";
+    echo "<b>Condition: </b>$condition<br/><br/>";
     echo "</div>";
 }
 ?>

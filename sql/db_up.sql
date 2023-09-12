@@ -31,5 +31,6 @@ CREATE TABLE editions
     FOREIGN KEY(book_id)
         REFERENCES books(book_id),
     published VARCHAR(50),
-    price DECIMAL
+    price DECIMAL,
+    `condition` VARCHAR(50)
 );

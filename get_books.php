@@ -60,32 +60,46 @@ foreach ($authors as $author) {
             }
         }
 
-        $editionIndex = array_rand($englishEditions);
-        $edition = $englishEditions[$editionIndex];
+        $numEditions = rand(1, count($englishEditions));
+        $editionIndices = array_rand($englishEditions, $numEditions);
+        $myEditions = [];
 
-        if (gettype($edition['covers']) == 'array') {
-            $edition['cover'] = $edition['covers'][0];
-        }
-        else {
-            $edition['cover'] = $edition['covers'];
-        }
-
-        $coverImage = null;
-
-        if ($edition['cover']) {
-            $coverImage = 'https://covers.openlibrary.org/b/id/'
-                . $edition['cover']
-                . '-M.jpg';
+        if (gettype($editionIndices) == 'array') {
+            foreach($editionIndices as $editionIndex) {
+                $myEditions[] = $englishEditions[$editionIndex];
+            }
+        } else {
+            $myEditions[] = $englishEditions[$editionIndices];
         }
 
-        $editionMap = ['printing'=>$edition['revision'],
-            'coverImage'=>$coverImage,
-            'bookId'=>$bookId,
-            'published'=>$edition['publish_date'],
-            'price'=>mt_rand (2*10, 200*10) / 10];
+        $conditions = ['Poor', 'Acceptable', 'Average', 'Good', 'Very good', 'Excellent', 'New'];
 
-        $db->addEdition($editionMap);
+        foreach ($myEditions as $edition) {
+            if (gettype($edition['covers']) == 'array') {
+                $edition['cover'] = $edition['covers'][0];
+            } else {
+                $edition['cover'] = $edition['covers'];
+            }
 
+            $coverImage = null;
+
+            if ($edition['cover']) {
+                $coverImage = 'https://covers.openlibrary.org/b/id/'
+                    . $edition['cover']
+                    . '-M.jpg';
+            }
+
+            $conditionIndex = array_rand($conditions);
+
+            $editionMap = ['printing' => $edition['revision'],
+                'coverImage' => $coverImage,
+                'bookId' => $bookId,
+                'published' => $edition['publish_date'],
+                'price' => mt_rand(2 * 10, 200 * 10) / 10,
+                'condition' => $conditions[$conditionIndex]];
+
+            $db->addEdition($editionMap);
+        }
     }
 }
 
